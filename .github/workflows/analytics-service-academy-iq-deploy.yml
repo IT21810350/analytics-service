@@ -1,0 +1,42 @@
+name: Trigger auto deployment for analytics-service-academy-iq
+
+on:
+  push:
+    branches:
+      [ main ]
+    paths:
+    - '**'
+    - '.github/workflows/analytics-service-academy-iq-AutoDeployTrigger-1764fa15-b2ac-4771-8d3b-7abf9fb26066.yml'
+
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions: 
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.ANALYTICSSERVICEACADEMYIQ_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.ANALYTICSSERVICEACADEMYIQ_AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.ANALYTICSSERVICEACADEMYIQ_AZURE_SUBSCRIPTION_ID }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: ${{ github.workspace }}
+          registryUrl: academyiq.azurecr.io
+          registryUsername: ${{ secrets.ANALYTICSSERVICEACADEMYIQ_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.ANALYTICSSERVICEACADEMYIQ_REGISTRY_PASSWORD }}
+          containerAppName: analytics-service-academy-iq
+          resourceGroup: year3-semester1-ds-assignment
+          imageToBuild: academyiq.azurecr.io/analytics-service-academy-iq:${{ github.sha }}
+          _buildArgumentsKey_: |
+            _buildArgumentsValues_
