@@ -44,5 +44,6 @@ jobs:
           _buildArgumentsKey_: |
             _buildArgumentsValues_
           allowInsecureConnections: true
+          allowPublicNetworkAccess: true
 
 
