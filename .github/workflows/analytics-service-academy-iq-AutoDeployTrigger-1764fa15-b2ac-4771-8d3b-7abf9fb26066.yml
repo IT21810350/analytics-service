@@ -5,10 +5,10 @@ on:
   # Automatically trigger it when detected changes in repo
   push:
     branches: 
-      - main
+      [ main ]
     paths:
-      - '**'
-      - '.github/workflows/analytics-service-academy-iq-AutoDeployTrigger-1764fa15-b2ac-4771-8d3b-7abf9fb26066.yml'
+    - '**'
+    - '.github/workflows/analytics-service-academy-iq-AutoDeployTrigger-1764fa15-b2ac-4771-8d3b-7abf9fb26066.yml'
 
   # Allow manual trigger 
   workflow_dispatch:      
@@ -17,60 +17,12 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     permissions: 
-      id-token: write # This is required for requesting the OIDC JWT Token
-      contents: read # Required when GH token is used to authenticate with private repo
+      id-token: write #This is required for requesting the OIDC JWT Token
+      contents: read #Required when GH token is used to authenticate with private repo
 
     steps:
       - name: Checkout to the branch
         uses: actions/checkout@v2
-
-      - name: Set up environment variables
-        env:
-          PORT: ${{ secrets.PORT }}
-          ORIGIN: ${{ secrets.ORIGIN }}
-          NODE_ENV: ${{ secrets.NODE_ENV }}
-          DB_URI: ${{ secrets.DB_URI }}
-          CLOUD_NAME: ${{ secrets.CLOUD_NAME }}
-          CLOUD_API_KEY: ${{ secrets.CLOUD_API_KEY }}
-          CLOUD_SECRET_KEY: ${{ secrets.CLOUD_SECRET_KEY }}
-          REDIS_URL: ${{ secrets.REDIS_URL }}
-          ACTIVATION_SECRET: ${{ secrets.ACTIVATION_SECRET }}
-          SMTP_HOST: ${{ secrets.SMTP_HOST }}
-          SMTP_PORT: ${{ secrets.SMTP_PORT }}
-          SMTP_SERVICE: ${{ secrets.SMTP_SERVICE }}
-          SMTP_MAIL: ${{ secrets.SMTP_MAIL }}
-          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
-          VDOCIPHER_API_SECRET: ${{ secrets.VDOCIPHER_API_SECRET }}
-          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
-          STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY }}
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
-          ACCESS_TOKEN_EXPIRE: ${{ secrets.ACCESS_TOKEN_EXPIRE }}
-          REFRESH_TOKEN_EXPIRE: ${{ secrets.REFRESH_TOKEN_EXPIRE }}
-
-      - name: Generate .env file
-        run: |
-          echo "PORT=${PORT}" >> .env
-          echo "ORIGIN=${ORIGIN}" >> .env
-          echo "NODE_ENV=${NODE_ENV}" >> .env
-          echo "DB_URI=${DB_URI}" >> .env
-          echo "CLOUD_NAME=${CLOUD_NAME}" >> .env
-          echo "CLOUD_API_KEY=${CLOUD_API_KEY}" >> .env
-          echo "CLOUD_SECRET_KEY=${CLOUD_SECRET_KEY}" >> .env
-          echo "REDIS_URL=${REDIS_URL}" >> .env
-          echo "ACTIVATION_SECRET=${ACTIVATION_SECRET}" >> .env
-          echo "SMTP_HOST=${SMTP_HOST}" >> .env
-          echo "SMTP_PORT=${SMTP_PORT}" >> .env
-          echo "SMTP_SERVICE=${SMTP_SERVICE}" >> .env
-          echo "SMTP_MAIL=${SMTP_MAIL}" >> .env
-          echo "SMTP_PASSWORD=${SMTP_PASSWORD}" >> .env
-          echo "VDOCIPHER_API_SECRET=${VDOCIPHER_API_SECRET}" >> .env
-          echo "STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}" >> .env
-          echo "STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY}" >> .env
-          echo "ACCESS_TOKEN=${ACCESS_TOKEN}" >> .env
-          echo "REFRESH_TOKEN=${REFRESH_TOKEN}" >> .env
-          echo "ACCESS_TOKEN_EXPIRE=${ACCESS_TOKEN_EXPIRE}" >> .env
-          echo "REFRESH_TOKEN_EXPIRE=${REFRESH_TOKEN_EXPIRE}" >> .env
 
       - name: Azure Login
         uses: azure/login@v1
@@ -91,4 +43,3 @@ jobs:
           imageToBuild: academyiq.azurecr.io/analytics-service-academy-iq:${{ github.sha }}
           _buildArgumentsKey_: |
             _buildArgumentsValues_
-
