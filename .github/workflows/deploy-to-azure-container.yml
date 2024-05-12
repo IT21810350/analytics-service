@@ -28,8 +28,7 @@ jobs:
     - name: Deploy to Azure Container Instances
       uses: azure/aci-deploy@v1
       with:
-        resource-group: your-resource-group-name
-        dns-name-label: your-dns-name-label
+        resource-group: ds-assignment-y3-s1-resource-group
         image-name: academyiq.azurecr.io/analyticsimage:latest
         container-name: analytics-container
         ports: 80:80
