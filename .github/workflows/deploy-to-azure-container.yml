@@ -1,0 +1,37 @@
+name: Deploy to Azure Container Instances
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      
+    - name: Login to Azure Container Registry
+      uses: azure/docker-login@v1
+      with:
+        login-server: academyiq.azurecr.io
+        username: ${{ secrets.ACR_USERNAME }}
+        password: ${{ secrets.ACR_PASSWORD }}
+
+    - name: Build and push Docker image
+      run: |
+        docker build -t academyiq.azurecr.io/analyticsimage:latest .
+        docker push academyiq.azurecr.io/analyticsimage:latest
+      
+    - name: Deploy to Azure Container Instances
+      uses: azure/aci-deploy@v1
+      with:
+        resource-group: your-resource-group-name
+        dns-name-label: your-dns-name-label
+        image-name: academyiq.azurecr.io/analyticsimage:latest
+        container-name: analytics-container
+        ports: 80:80
+        environment-variables: |
+          KEY=value
