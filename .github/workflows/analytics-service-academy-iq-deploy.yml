@@ -37,6 +37,6 @@ jobs:
           registryPassword: ${{ secrets.ANALYTICSSERVICEACADEMYIQ_REGISTRY_PASSWORD }}
           containerAppName: analytics-service-academy-iq
           resourceGroup: year3-semester1-ds-assignment
-          imageToBuild: academyiq.azurecr.io/analytics-service-academy-iq:${{ github.sha }}
+          imageToBuild: academyiq.azurecr.io/analytics-service-academy-iq:${{ github.event.after }}-${{ github.sha }}
           _buildArgumentsKey_: |
             _buildArgumentsValues_
