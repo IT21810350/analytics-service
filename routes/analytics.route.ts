@@ -1,8 +1,9 @@
 import express from "express";
 import { authorizeRoles, isAutheticated } from "../middleware/auth";
-import { getCoursesAnalytics, getCreatedCoursesAnalytics, getOrderAnalytics, getUsersAnalytics } from "../controllers/analytics.controller";
+import { welcome, getCoursesAnalytics, getCreatedCoursesAnalytics, getOrderAnalytics, getUsersAnalytics } from "../controllers/analytics.controller";
 const analyticsRouter = express.Router();
 
+analyticsRouter.get("/", welcome);
 
 analyticsRouter.get("/get-users-analytics", isAutheticated,authorizeRoles("instructor", "admin"), getUsersAnalytics);
 

@@ -7,6 +7,12 @@ import ApprovedCourseModel from "../models/approveCourse.model";
 import OrderModel from "../models/order.Model";
 import CourseModel from "../models/course.model";
 
+export const welcome = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    res.status(200).json({message: "welcome to analytics service of academy iq"})
+  }
+);
+
 // get users analytics --- only for admin
 export const getUsersAnalytics = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
