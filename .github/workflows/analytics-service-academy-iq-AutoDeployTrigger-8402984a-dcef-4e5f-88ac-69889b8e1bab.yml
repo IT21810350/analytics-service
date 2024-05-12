@@ -43,5 +43,6 @@ jobs:
           imageToBuild: academyiq.azurecr.io/analytics-service-academy-iq:${{ github.sha }}
           _buildArgumentsKey_: |
             _buildArgumentsValues_
+          allowInsecureConnections: true
 
 
